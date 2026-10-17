@@ -16,7 +16,7 @@
   "mcpServers": {
     "fline": {
       "type": "http",
-      "url": "https://mcp.dev.fline.sh/mcp"
+      "url": "https://mcp.fline.sh/mcp"
     }
   }
 }

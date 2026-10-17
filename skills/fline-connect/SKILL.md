@@ -5,7 +5,7 @@ description: Use when the person wants to connect Claude Code, Codex, Cursor or 
 
 # Connecting an AI coding app to fline
 
-fline is driven through a remote MCP server at `https://mcp.dev.fline.sh/mcp` (HTTP, OAuth in the browser). Nothing works until it is connected and the person's account is open.
+fline is driven through a remote MCP server at `https://mcp.fline.sh/mcp` (HTTP, OAuth in the browser). Nothing works until it is connected and the person's account is open.
 
 ## Before connecting
 
@@ -19,8 +19,8 @@ The person needs all three, in this order:
 
 | App | Steps |
 |---|---|
-| Claude Code, and the Claude desktop app's Code tab | Run `claude mcp add --transport http --scope user fline https://mcp.dev.fline.sh/mcp`. The person then starts Claude Code, types `/mcp`, chooses fline, then Authenticate. The Code tab reads the same setup; restart the desktop app if fline doesn't show. |
-| Codex | Append `[mcp_servers.fline]` and `url = "https://mcp.dev.fline.sh/mcp"` to `~/.codex/config.toml` (straight quotes), then `codex mcp login fline`, then `codex mcp list` to confirm. If login doesn't start, add `auth = "oauth"` under the same block. |
+| Claude Code, and the Claude desktop app's Code tab | Run `claude mcp add --transport http --scope user fline https://mcp.fline.sh/mcp`. The person then starts Claude Code, types `/mcp`, chooses fline, then Authenticate. The Code tab reads the same setup; restart the desktop app if fline doesn't show. |
+| Codex | Append `[mcp_servers.fline]` and `url = "https://mcp.fline.sh/mcp"` to `~/.codex/config.toml` (straight quotes), then `codex mcp login fline`, then `codex mcp list` to confirm. If login doesn't start, add `auth = "oauth"` under the same block. |
 | Cursor, VS Code, Grok, Antigravity | Setup steps are on the person's dashboard. Not tested end to end with fline; say so. |
 | ChatGPT, Claude on the web, the desktop app's Chat tab, Lovable, Bolt, Replit | Cannot put an app on fline: they can't send it a project folder. |
 
