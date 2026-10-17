@@ -123,6 +123,7 @@ fline's own website runs on fline with this file, apart from the project id. It 
 | `plan_bad_env_format` | `format` on a variable that isn't managed, or `host_port` on Valkey | Remove it; Valkey takes a URL only |
 | `plan_env_value_secret_name`, `secret_literal` | A literal value on a name or value that looks like a credential | Declare it without a value |
 | `plan_image_and_build` | Both `image` and build fields | One or the other |
+| `plan_bad_service_name` | A service name with capitals, dots or other characters a built image can't take | Lowercase letters, digits, `-` and `_` |
 | `plan_bad_ingress_label`, `plan_duplicate_ingress_label` | Labels not distinct or not a short DNS label | One `""`, the rest distinct |
 | `image_not_allowed`, `image_registry_not_allowed` | An image from another registry | docker.io, ghcr.io or quay.io |
 | `image_tag_latest` | No tag, or `latest` | Name a version |

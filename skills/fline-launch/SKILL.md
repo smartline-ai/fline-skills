@@ -28,7 +28,7 @@ Project never checked against fline? Use fline-prepare first. A failed build cos
 | `locked` | `deploy {project_id}`. |
 | `submitted` | Poll `get_deploy_status` until runtime is live/healthy and `url` is set. |
 | `failed` | Use fline-diagnose. `deploy` does not restart a failed project; a new upload does. |
-| warning `committed_secret` on `.env.example`, `.env.sample`, `.env.template` or `.env.defaults` | Expected on every upload: fline lists these by name and still reads their variable names. If the file holds only names or placeholders, keep it and say nothing to the person. If it holds real values, empty them and treat those keys as exposed. |
+| warning `committed_secret` on `.env.example`, `.env.sample`, `.env.template` or `.env.defaults` | The file holds a key, or is over 8 KiB. One with only names or placeholders gets no warning. Take the real values out, keep the file, upload again, and treat those keys as exposed. |
 | warning `committed_secret` on any other file | That file held a key and still went into the build. Tell the person which file, take the key out, upload again, and suggest they replace the key with a fresh one. |
 | failure `no_capacity` at stage `submit` | fline is full. Don't retry. Tell the person and suggest writing via https://dev.fline.sh/#contact. |
 

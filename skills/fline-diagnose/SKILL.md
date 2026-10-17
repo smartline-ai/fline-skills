@@ -20,12 +20,11 @@ Then fix it in the project folder or `fline.json` and upload again (fline-launch
 
 | What you see | Usually | Fix |
 |---|---|---|
-| Stage `intake`: `archive_too_large`, `too_many_files`, `file_too_large`, `symlink_escape`, `compression_bomb`, `config_too_large` | The archive | Pack with fline-launch's `pack.sh`; it checks all of these |
+| Stage `intake`: `archive_too_large`, `too_many_files`, `file_too_large`, `symlink_escape`, `compression_bomb`, `config_too_large`, `unsupported_entry_type` | The archive. `too_many_files` counts files, folders and links together, at most 20,000 | Pack with fline-launch's `pack.sh`; it checks these. Leave out generated folders |
 | Stage `analyze`, `plan_rejected`, `render_failed`, `survey_no_services` | fline couldn't work out the build | Read the reason. Write or fix `fline.json` (fline-build-plan) |
 | Stage `provision`, a paused service | The database is paused | Ask the person, `resume_service`, upload again |
 | Stage `build`: `build_command_failed`, `dependency_fetch_failed`, `dockerfile_syntax` | `build_commands`, the lockfile, or a path the start command doesn't match | Read the first error in the build log. `COPY` source not found means a path in the plan doesn't exist in the folder |
 | `build_timeout`, `image_too_large` | All services together took over 15 minutes, or an image is over 2 GiB | Fewer or lighter dependencies; no models or datasets in the image |
-| `source_rejected` "more than 20000 entries" | Files plus folders over 20,000 | Leave out generated folders |
 | `sizing: class "small" cannot hold N services` | Too many services for 1 GiB | Merge services |
 | `healthcheck_failed`: "listens on loopback only" | Listening on `localhost` or `127.0.0.1` | Listen on `0.0.0.0` (or read `HOST`) and on `PORT` |
 | `healthcheck_failed`: "not listening on any TCP port", or "did not become healthy within 5m" | It crashed, or took over 5 minutes to start, or never answers `GET /` | Read the runtime log. Any HTTP answer on `/` counts; build at build time, not at start |
