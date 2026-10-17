@@ -2,7 +2,7 @@
 
 Skills that teach your AI coding app (Claude Code, Codex, Cursor and the other
 apps that read Agent Skills) how to put your project online with
-[fline](https://dev.fline.sh). For Claude Code, the repository is also a plugin
+[fline](https://fline.sh). For Claude Code, the repository is also a plugin
 that connects fline's MCP server.
 
 ## Install
@@ -16,11 +16,11 @@ that connects fline's MCP server.
 The Claude Code plugin brings fline's MCP server with it: type `/mcp`, choose
 fline, then Authenticate, and approve fline in your browser. Installed any other
 way, the skills carry no server; connect fline as the
-[fline docs](https://dev.fline.sh/docs) describe, or ask your AI app to, which
+[fline docs](https://fline.sh/docs) describe, or ask your AI app to, which
 loads `fline-connect`.
 
 You need a fline account. fline is in private beta: see
-[Getting your account](https://dev.fline.sh/docs/get-access).
+[Getting your account](https://fline.sh/docs/get-access).
 
 ## Skills
 
@@ -73,7 +73,7 @@ tests/                            scenarios and the projects they run on
 ## Where this comes from
 
 Every fact here restates fline's own documentation, in particular
-[for-ai.md](https://dev.fline.sh/docs/for-ai.md). This repository is published
+[for-ai.md](https://fline.sh/docs/for-ai.md). This repository is published
 from fline's main repository; a change made only here is replaced by the next
 publish.
 

@@ -1,7 +1,7 @@
 {
   "name": "fline",
   "description": "fline's plugin for AI coding apps",
-  "owner": { "name": "fline", "url": "https://dev.fline.sh" },
+  "owner": { "name": "fline", "url": "https://fline.sh" },
   "plugins": [
     {
       "name": "fline",

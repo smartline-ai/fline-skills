@@ -39,7 +39,7 @@ Every call returns 401 until the account is ready. Read the message and relay it
 | `this account is waiting for approval` | Their account isn't open yet. They'll get an email when it is. |
 | `this account has never asked for access` | Sign in at the dashboard once and confirm their email with the emailed code. |
 | `token owner is not provisioned` | Open `https://app.dev.fline.sh` once in a browser, then try again. |
-| `this account has not been granted access` | fline declined it; they can write via the contact links at `https://dev.fline.sh/#contact`. |
+| `this account has not been granted access` | fline declined it; they can write via the contact links at `https://fline.sh/#contact`. |
 | `insufficient_scope` | A permission box was unticked. Authenticate again and tick every box. |
 
 Other causes of "keeps asking to sign in": an old dashboard line connected fline to one folder only (re-add with `--scope user`), or the browser approval was closed before it finished.

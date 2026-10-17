@@ -37,7 +37,7 @@ Then fix it in the project folder or `fline.json` and upload again (fline-launch
 | `Killed`, exit 137, out of memory | Over the 1 GiB the whole project shares | Lighter start, fewer workers, no build at startup |
 | A key "missing" right after the person saved it | Not restarted | `restart` |
 | A prebuilt image ignoring its command | `run_command` replaces CMD, never ENTRYPOINT | Configure it through `env_names` literal values (fline-build-plan) |
-| Stage `submit`, reason starts `no_capacity` | fline is full | Stop. Don't retry. Tell the person; suggest https://dev.fline.sh/#contact |
+| Stage `submit`, reason starts `no_capacity` | fline is full | Stop. Don't retry. Tell the person; suggest https://fline.sh/#contact |
 | Class `internal_error`, `invalid_manifest`, `secrets_unavailable` or `converge_timeout` | fline's own side | Don't loop. Tell the person it's on fline's side and suggest the contact link |
 
 ## Tell the person
