@@ -1,0 +1,22 @@
+{
+  "name": "fline",
+  "version": "0.1.0",
+  "description": "Put an app online with fline from the AI coding app you built it with: connect, get the project ready, launch, update, add a database or a web address, find out what went wrong, and check it before sharing the link.",
+  "author": {
+    "name": "fline",
+    "url": "https://dev.fline.sh"
+  },
+  "homepage": "https://dev.fline.sh/docs",
+  "keywords": [
+    "fline",
+    "hosting",
+    "deploy",
+    "mcp"
+  ],
+  "mcpServers": {
+    "fline": {
+      "type": "http",
+      "url": "https://mcp.dev.fline.sh/mcp"
+    }
+  }
+}

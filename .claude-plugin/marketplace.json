@@ -1,0 +1,12 @@
+{
+  "name": "fline",
+  "description": "fline's plugin for AI coding apps",
+  "owner": { "name": "fline", "url": "https://dev.fline.sh" },
+  "plugins": [
+    {
+      "name": "fline",
+      "source": "./",
+      "description": "Skills for putting an app online with fline, plus the fline MCP server."
+    }
+  ]
+}
