@@ -22,6 +22,29 @@ loads `fline-connect`.
 You need a fline account. fline is in private beta: see
 [Getting your account](https://fline.sh/docs/get-access).
 
+## What it sends, and where
+
+The skills are instructions; on their own they send nothing anywhere. What
+leaves the computer goes through fline's MCP server at `https://mcp.fline.sh/mcp`,
+and only when the person asks for something fline does:
+
+- **The project folder.** `scripts/pack.sh` packs a copy of it as a `.tar.gz`,
+  leaving out `.git`, `node_modules`, what the project's `.gitignore` ignores,
+  and `.env` and key files, and the agent uploads it to fline's storage. fline keeps that copy so it can build and
+  run the app. The original stays in the folder.
+- **Parts of the code, to an AI model made by OpenAI,** so fline can work out how
+  to build and run the app. Passwords and keys saved on fline never go to it.
+- **Tool calls.** Project names, settings names, web addresses and the other
+  arguments of fline's tools. Passwords and keys are typed by the person on a
+  private fline page, not sent through the chat.
+- **What comes back.** Project state, build output and the app's recent log
+  lines, which hold whatever the app prints.
+
+Sign-in is OAuth in the browser; the plugin holds no key. Disconnecting in the
+fline dashboard takes effect within 30 seconds. Details:
+[privacy policy](https://fline.sh/privacy), [terms](https://fline.sh/terms),
+[what fline does today](https://fline.sh/facts).
+
 ## Skills
 
 | Skill | What it covers |

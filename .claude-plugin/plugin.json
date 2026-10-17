@@ -1,18 +1,26 @@
 {
   "name": "fline",
-  "version": "0.1.0",
+  "displayName": "fline",
+  "version": "0.2.0",
   "description": "Put an app online with fline from the AI coding app you built it with: connect, get the project ready, launch, update, add a database or a web address, find out what went wrong, and check it before sharing the link.",
   "author": {
     "name": "fline",
     "url": "https://fline.sh"
   },
   "homepage": "https://fline.sh/docs",
+  "repository": "https://github.com/smartline-ai/fline-skills",
+  "license": "MIT",
   "keywords": [
     "fline",
     "hosting",
     "deploy",
     "mcp"
   ],
+  "icon": "./assets/icon-512.png",
+  "documentationUrl": "https://fline.sh/docs/skills",
+  "supportUrl": "https://fline.sh/#contact",
+  "privacyPolicyUrl": "https://fline.sh/privacy",
+  "termsOfServiceUrl": "https://fline.sh/terms",
   "mcpServers": {
     "fline": {
       "type": "http",

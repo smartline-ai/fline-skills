@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "sh.fline/fline",
+  "title": "fline",
+  "description": "Hosting for apps you build with AI. Tested with Claude Code. Private beta: accounts opened by hand.",
+  "version": "0.1.0",
+  "websiteUrl": "https://fline.sh/docs",
+  "repository": {
+    "url": "https://github.com/smartline-ai/fline-skills",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://fline.sh/static/img/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.fline.sh/mcp"
+    }
+  ]
+}
