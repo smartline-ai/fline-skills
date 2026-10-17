@@ -11,15 +11,13 @@
 #   session secret, every user's rows shown to everyone, a venv, and a symlink
 #   to a folder outside the project. Not a git repository.
 #
-# Fake keys are assembled at run time: secret scanners refuse a push that
-# carries a key-shaped string.
+# Keys in the fixtures are placeholders in the vendors' documented sample
+# form, such as sk_live_EXAMPLE.
 
 set -eu
 out="${1:?usage: bash make-fixtures.sh DIR}"
 mkdir -p "$out"
 cd "$out"
-live="sk_""live_"
-proj="sk-""proj-"
 
 rm -rf bakery-orders habit-tracker
 mkdir -p bakery-orders/public bakery-orders/uploads habit-tracker/templates habit-tracker/venv/lib
@@ -114,11 +112,11 @@ CREATE TABLE IF NOT EXISTS orders (
 EOF
 
 cat > bakery-orders/.env <<EOF
-STRIPE_SECRET_KEY=${live}51FAKEFAKEFAKEFAKEnotarealkey000000
+STRIPE_SECRET_KEY=sk_live_EXAMPLE
 GMAIL_USER=bakery@example.com
-GMAIL_APP_PASSWORD=abcd efgh ijkl mnop
+GMAIL_APP_PASSWORD=YOUR_APP_PASSWORD
 DB_PASSWORD=postgres
-OPENAI_API_KEY=${proj}FAKEFAKEFAKE
+OPENAI_API_KEY=sk-proj-EXAMPLE
 EOF
 
 cat > bakery-orders/public/index.html <<'EOF'
@@ -126,7 +124,7 @@ cat > bakery-orders/public/index.html <<'EOF'
 EOF
 
 cat > bakery-orders/public/app.js <<EOF
-const OPENAI_KEY = '${proj}FAKEFAKEFAKE';
+const OPENAI_KEY = 'sk-proj-EXAMPLE';
 async function cakeIdea() {
   const r = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
