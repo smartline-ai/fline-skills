@@ -36,7 +36,10 @@ and only when the person asks for something fline does:
   to build and run the app. Passwords and keys saved on fline never go to it.
 - **Tool calls.** Project names, settings names, web addresses and the other
   arguments of fline's tools. Passwords and keys are typed by the person on a
-  private fline page, not sent through the chat.
+  private fline page, not sent through the chat. The exception is a key the
+  agent already holds, one it generated or one the person pasted into the
+  chat: `set_env` sends that value to fline, which stores it and never shows
+  it again.
 - **What comes back.** Project state, build output and the app's recent log
   lines, which hold whatever the app prints.
 
@@ -52,7 +55,7 @@ fline dashboard takes effect within 30 seconds. Details:
 | [`fline-connect`](skills/fline-connect/SKILL.md) | Adding fline's MCP server to the AI app, the browser approval, and the account states that refuse every call |
 | [`fline-prepare`](skills/fline-prepare/SKILL.md) | Reading a project for what stops it running on fline, and fixing it before the first upload |
 | [`fline-launch`](skills/fline-launch/SKILL.md) | First launch, updates, settings, restarts and putting an earlier version back; bundles `scripts/pack.sh` |
-| [`fline-database`](skills/fline-database/SKILL.md) | A managed Postgres or Valkey wired through the plan, a database the person already runs, SQLite and files on disk |
+| [`fline-database`](skills/fline-database/SKILL.md) | A Postgres or Valkey that fline creates and runs, a database the person already runs, SQLite and files on disk |
 | [`fline-domain`](skills/fline-domain/SKILL.md) | A web address the person owns: the record, the checks, the 48-hour limit |
 | [`fline-diagnose`](skills/fline-diagnose/SKILL.md) | What to read, in order, when a launch fails or a live app misbehaves, and the usual causes |
 | [`fline-build-plan`](skills/fline-build-plan/SKILL.md) | `fline.json`: freezing the plan, editing it, `check_config`, several services, prebuilt images, volumes |

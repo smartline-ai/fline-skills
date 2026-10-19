@@ -30,7 +30,8 @@ Project never checked against fline? Use fline-prepare first. A failed build cos
 | `failed` | Use fline-diagnose. `deploy` does not restart a failed project; a new upload does. |
 | warning `committed_secret` on `.env.example`, `.env.sample`, `.env.template` or `.env.defaults` | The file holds a key, or is over 8 KiB. One with only names or placeholders gets no warning. Take the real values out, keep the file, upload again, and treat those keys as exposed. |
 | warning `committed_secret` on any other file | That file held a key and still went into the build. Tell the person which file, take the key out, upload again, and suggest they replace the key with a fresh one. |
-| failure `no_capacity` at stage `submit` | fline is full. Don't retry. Tell the person and suggest writing via https://fline.sh/#contact. |
+| error `fline_full`, or a message or failure reason starting "fline is full right now", or failure `no_capacity` at stage `submit` | fline is full. Don't retry now. Tell the person fline's sentence and suggest writing via https://fline.sh/#contact. |
+| error `fline_not_taking_apps`, or a message or failure reason starting "fline can't take new apps" or "fline can't put new versions online", or failure `node_not_ready` at stage `submit` | fline is taking no new work. Don't retry now. Tell the person fline's sentence and suggest writing via https://fline.sh/#contact. |
 
 7. Fetch the url yourself (`curl -sS -o /dev/null -w '%{http_code}' <url>`) to see it answers. Then give it to the person; it's also on their fline dashboard.
 8. `get_config` and save the answer as `fline.json` at the top of the project folder, so later updates follow the same plan. See fline-build-plan.
@@ -49,13 +50,13 @@ At `awaiting_secrets`, sort each missing name (`list_env_names`), and add any th
 
 1. Make the change. If `fline.json` exists and the change affects how the app is built or started, edit it and `check_config` until ok.
 2. `get_upload_url`, pack, PUT, `complete_upload`. While a build is running `complete_upload` is refused: poll `get_deploy_status` until it leaves building, then retry with the same `blob_key`.
-3. Follow the same states as a first launch. The live version keeps serving until the new one is ready, and a failed update leaves it running.
+3. Follow the same states as a first launch. The live version keeps running while the new one is prepared. In code an update that can't be built leaves it running too, but that hasn't been tested live, so don't promise it. A new version that is built but fails to start stays failed: nothing puts the old one back by itself, so offer to put the earlier version back (below) while you fix it.
 
 A setting only, no new code: `set_env`, then `restart`. `restart` never picks up new code; only an upload does.
 
 ## Putting an earlier version back
 
-`list_versions`, pick the last good `state_version`, `rollback {project_id, to}`, poll `get_deploy_status`. Tell the person "I put the earlier version back", and get these right: the version number goes up, not back (rolling back to 3 can make version 12); current passwords and keys stay; the database is not rolled back; their project folder still holds the newer code, so fix it there before the next update. The dashboard has no button for this.
+`list_versions`, pick the last good `state_version`, `rollback {project_id, to}`, poll `get_deploy_status`. Tell the person "I put the earlier version back", and get these right: the version number goes up, not back (rolling back to 3 can make version 12); current passwords and keys stay; the database is not rolled back; their project folder still holds the newer code, so fix it there before the next update. The person can do the same themselves: on their dashboard, the app's History tab has "Put this version back" on every version but the one online.
 
 ## Say it plainly
 

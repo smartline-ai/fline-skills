@@ -1,6 +1,6 @@
 ---
 name: fline-connect
-description: Use when the person wants to connect Claude Code, Codex, Cursor or another AI coding app to fline, when no fline tools are available yet, or when fline tool calls fail with 401, "waiting for approval", "never asked for access", "token owner is not provisioned", "not been granted access", or the app keeps asking to sign in to fline again.
+description: Use when the person wants to connect Claude Code, Codex, Cursor or another AI coding app to fline, when no fline tools are available yet, or when fline tool calls fail with 401, "waiting for approval", "never asked for access", "not been granted access", or the app keeps asking to sign in to fline again.
 ---
 
 # Connecting an AI coding app to fline
@@ -9,11 +9,12 @@ fline is driven through a remote MCP server at `https://mcp.fline.sh/mcp` (HTTP,
 
 ## Before connecting
 
-The person needs all three, in this order:
+The person needs both:
 
 1. A fline account that has been opened. During the private beta accounts are opened by hand; they get an email when theirs is.
 2. Their email address confirmed with the code fline emailed them.
-3. One visit to their fline dashboard, `https://app.dev.fline.sh`, in a browser. That visit creates their workspace; nothing else does, and you cannot do it for them.
+
+fline sets up their workspace by itself once both are true. They don't need to open the dashboard first if they typed the code on fline's page. An address confirmed only through the email's link isn't seen until they next sign in to the dashboard; until then every call is refused with "never asked for access".
 
 ## Connect
 
@@ -37,8 +38,7 @@ Every call returns 401 until the account is ready. Read the message and relay it
 | Message begins | Tell the person |
 |---|---|
 | `this account is waiting for approval` | Their account isn't open yet. They'll get an email when it is. |
-| `this account has never asked for access` | Sign in at the dashboard once and confirm their email with the emailed code. |
-| `token owner is not provisioned` | Open `https://app.dev.fline.sh` once in a browser, then try again. |
+| `this account has never asked for access` | Sign in at the dashboard and confirm their email with the emailed code. |
 | `this account has not been granted access` | fline declined it; they can write via the contact links at `https://fline.sh/#contact`. |
 | `insufficient_scope` | A permission box was unticked. Authenticate again and tick every box. |
 
@@ -46,4 +46,4 @@ Other causes of "keeps asking to sign in": an old dashboard line connected fline
 
 ## After connecting
 
-The person can disconnect any AI app from the Agents page of their dashboard; it takes effect within 30 seconds and their app keeps running. To put a project online next, use fline-launch.
+The person can disconnect any AI app with its Revoke button under Connected AIs, on the Connect your AI page of their dashboard; it takes effect within 30 seconds and their app keeps running. To put a project online next, use fline-launch.

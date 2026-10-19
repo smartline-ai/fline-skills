@@ -22,7 +22,7 @@ Every app already has a long address ending in `apps.dev.fline.sh`; that keeps w
    - On Cloudflare the record must be "DNS only" (grey cloud), not proxied.
    - If `platform_name` is null, or they can't add a CNAME: Type TXT, Name `<challenge_name>` without the domain after it, Value `<challenge_token>`. A TXT proves ownership but sends no visitors.
    - A name starting `_smartline-challenge` is fline's older name. Use it exactly as given.
-   - Their fline dashboard's Domains page shows the same record in their provider's own field names (Cloudflare, GoDaddy, Namecheap, Squarespace Domains, AWS Route 53). Point them there rather than guessing a provider's screens.
+   - On their fline dashboard, the app's Web address and usage tab shows the same record under the address, in their provider's own field names (Cloudflare, GoDaddy, Namecheap, Squarespace Domains, AWS Route 53, Another provider). Point them there rather than guessing a provider's screens.
 
    You cannot add the record. Ask them to tell you when it's saved, then wait.
 5. fline checks by itself for 48 hours. After they say it's in, call `check_domain {project_id, hostname}`, then again every few minutes. Never in a tight loop: it is rate-limited. `last_error` says what the check saw. A new record taking a while to show up is normal; tell them so.
@@ -34,7 +34,7 @@ Every app already has a long address ending in `apps.dev.fline.sh`; that keeps w
 |---|---|
 | `last_error` shows a different value | The record's Name or Value is off. Compare with step 4 and the dashboard's version for their provider. |
 | Cloudflare domain, record present, not found | Proxy is on. Switch to DNS only. |
-| Status `failed` (48 hours passed) | It never recovers. Fix the record, then `delete_domain` and `attach_domain` for another 48 hours. Do not call `check_domain` on a failed domain: it answers an error that reads like an outage. |
+| Status `failed` (48 hours passed) | It never recovers. Fix the record, then `delete_domain` and `attach_domain` for another 48 hours. Don't call `check_domain` on a failed domain: it can't revive it, and it answers `domain_failed` or, from an older fline, an error that reads like an outage. |
 | Bare domain not on Cloudflare | Use `www` instead. |
 
 `delete_domain` takes the address off the project after asking the person; the long address keeps working.

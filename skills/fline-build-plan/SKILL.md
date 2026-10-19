@@ -21,7 +21,7 @@ fline's analysis turns the source into a plan: services, build commands, start c
 
 To shape a first launch (a volume, a different start command), `create_project` first, then write the file with that project's id before packing.
 
-`refresh_config` throws the file away and re-analyses. Use it only when the stack has moved on in ways you can't reason about. It costs an analysis and runs in the background: poll `get_project` until it leaves `analyzing`, then `get_config`.
+`refresh_config` throws the file away and re-analyses. Use it only when the stack has moved on in ways you can't reason about. It uses one of the account's fresh analyses for the month, while editing the file yourself and `check_config` are free. It runs in the background: poll `get_project` until it leaves `analyzing`, then `get_config`.
 
 ## Rules the checker enforces
 

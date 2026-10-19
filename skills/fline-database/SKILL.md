@@ -7,7 +7,7 @@ description: Use when an app going on fline needs a database or cache, reads DAT
 
 **Never invent a database address, never ask the person for one, and never `create_service` for a project before its launch.**
 
-fline runs PostgreSQL 16 (offering `postgres`) and Valkey 8, a Redis-compatible cache (offering `valkey`). Each comes in one size, 1 GiB of memory and about 8 GiB of data. A database belongs to the person's account, outlives any project, and is reachable over TLS with its password. No tool ever returns its address or password.
+fline runs PostgreSQL 16 (offering `postgres`) and Valkey 8, a Redis-compatible cache (offering `valkey`). Each comes in one size, 1 GiB of memory. Postgres holds about 8 GiB of data; Valkey keeps its data in memory, at most about 600 MiB, and refuses writes past that. A database belongs to the person's account, outlives any project, and is reachable over TLS with its password. No tool ever returns its address or password.
 
 ## The path that wires itself
 
@@ -28,7 +28,7 @@ fline runs PostgreSQL 16 (offering `postgres`) and Valkey 8, a Redis-compatible 
 | A database they already run elsewhere, such as a hosted Postgres or MongoDB | `attach_external {project_id, offering, variable?}`. Offering is `postgres`, `redis`, `mysql`, `mongodb` or `rabbitmq`; the default variable is `DATABASE_URL`, `REDIS_URL`, `MONGODB_URI` or `AMQP_URL`. Then `get_secrets_link`: they type the address there, never in the chat. |
 | SQLite, or data in files | Either move it to Postgres as above, or keep the file on a volume: the app reads its data folder from a setting (`DATA_DIR`), `fline.json` declares a volume at that path (`/data`), and `set_env {name: "DATA_DIR", value: "/data", secret: false}`. A volume survives restarts and updates and is removed only with the project. Anything outside it is lost at every update. |
 | MySQL | No managed MySQL. Attach an existing one, run the official image as a prebuilt service with a volume (fline-build-plan), or move the app to Postgres. |
-| A database for its own sake, outside any project | `create_service {name, engine}`, then poll `get_service` until `active`. Nothing wires it in: the person copies its connection line from the Services page of their dashboard onto the `get_secrets_link` form. `list_services` first, to avoid making a second one. |
+| A database for its own sake, outside any project | `create_service {name, engine}`, then poll `get_service` until `active`. Nothing wires it in: the person copies its connection line from its page under Databases on their dashboard onto the `get_secrets_link` form. `list_services` first, to avoid making a second one. |
 | Launch fails saying the database is paused | Ask the person, then `resume_service`, then upload again. |
 | They want it gone | Ask first. Prefer `pause_service` (reversible). `delete_service` keeps the data seven days, then destroys it. |
 
@@ -36,4 +36,4 @@ fline runs PostgreSQL 16 (offering `postgres`) and Valkey 8, a Redis-compatible 
 
 - "A database of its own", not managed Postgres, DSN or connection string. "A fast cache", not Valkey or Redis.
 - fline doesn't promise backups, has no restore, and has no download button. Tell them to keep their own copy of anything they can't lose. Putting an earlier version back never changes what's in the database.
-- They can limit which addresses may reach it under "Who may reach it" on the Services page.
+- They can limit which addresses may reach it under "Who may connect" on its page under Databases on their dashboard. The first address they add refuses every other, which can shut out their app on fline too, so leave the list empty for a database an app on fline uses.

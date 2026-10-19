@@ -22,6 +22,8 @@ Then fix it in the project folder or `fline.json` and upload again (fline-launch
 |---|---|---|
 | Stage `intake`: `archive_too_large`, `too_many_files`, `file_too_large`, `symlink_escape`, `compression_bomb`, `config_too_large`, `unsupported_entry_type` | The archive. `too_many_files` counts files, folders and links together, at most 20,000 | Pack with fline-launch's `pack.sh`; it checks these. Leave out generated folders |
 | Stage `analyze`, `plan_rejected`, `render_failed`, `survey_no_services` | fline couldn't work out the build | Read the reason. Write or fix `fline.json` (fline-build-plan) |
+| Stage `analyze` with a reason starting "the analysis answered, but its answer could not be used" | The model's answer couldn't be used | Upload again, which counts as a new analysis, or write `fline.json` (fline-build-plan) |
+| A reason, or a `refresh_config` refusal, containing "This fline account has had its" | The account's fresh analyses for the month are spent | Don't retry or `refresh_config`. Write `fline.json`, or save it from `get_config` (fline-build-plan), and upload again: an upload carrying one that `check_config` accepts skips the analysis and isn't counted |
 | Stage `provision`, a paused service | The database is paused | Ask the person, `resume_service`, upload again |
 | Stage `build`: `build_command_failed`, `dependency_fetch_failed`, `dockerfile_syntax` | `build_commands`, the lockfile, or a path the start command doesn't match | Read the first error in the build log. `COPY` source not found means a path in the plan doesn't exist in the folder |
 | `build_timeout`, `image_too_large` | All services together took over 15 minutes, or an image is over 2 GiB | Fewer or lighter dependencies; no models or datasets in the image |
@@ -37,7 +39,8 @@ Then fix it in the project folder or `fline.json` and upload again (fline-launch
 | `Killed`, exit 137, out of memory | Over the 1 GiB the whole project shares | Lighter start, fewer workers, no build at startup |
 | A key "missing" right after the person saved it | Not restarted | `restart` |
 | A prebuilt image ignoring its command | `run_command` replaces CMD, never ENTRYPOINT | Configure it through `env_names` literal values (fline-build-plan) |
-| Stage `submit`, reason starts `no_capacity` | fline is full | Stop. Don't retry. Tell the person; suggest https://fline.sh/#contact |
+| Reason starts "fline is full right now", or stage `submit` with a reason starting `no_capacity` | fline is full | Stop. Don't retry now. Tell the person fline's sentence; suggest https://fline.sh/#contact |
+| Reason starts "fline can't take new apps" or "fline can't put new versions online", or stage `submit` with a reason starting `node_not_ready` | fline is taking no new work | Stop. Don't retry now. Tell the person fline's sentence; suggest https://fline.sh/#contact |
 | Class `internal_error`, `invalid_manifest`, `secrets_unavailable` or `converge_timeout` | fline's own side | Don't loop. Tell the person it's on fline's side and suggest the contact link |
 
 ## Tell the person
