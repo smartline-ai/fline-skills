@@ -1,6 +1,6 @@
 ---
 name: fline-build-plan
-description: Use when writing, saving or editing fline.json, when check_config refuses it (config_stale, config_unknown_field, plan_* codes), when fline's analysis chose the wrong start or build command, for a project with several services, a worker, a monorepo or a prebuilt image such as a broker, when files must be kept on a volume, or right after a first successful launch on fline.
+description: Use when writing, saving or editing fline.json, when check_config refuses it (config_stale, config_unknown_field, plan_* codes), when fline's analysis chose the wrong start or build command, for a project with several services, a worker, a monorepo or a prebuilt image such as a broker, when files must be kept on a volume, when choosing the path fline checks on a live app (`health_path`), or right after a first successful launch on fline.
 ---
 
 # fline.json: the build plan
@@ -37,6 +37,7 @@ To shape a first launch (a volume, a different start command), `create_project` 
 
 - **Several services.** Each has its own `context` folder. Lowercase names, letters, digits, `-` and `_`. Siblings reach an internal service at `http://<name>:8080`, so it must listen on `PORT`. `depends_on` only orders their start, so retry connections.
 - **Public services.** `public: true` gets an address. With more than one, each needs its own `ingress_label` (lowercase letters, digits, hyphens, at most 26 characters). At most one keeps `""`; internal services keep `""`.
+- **Health path.** `health_path` on a public service is the path fline checks once it's live, such as `"/healthz"`. A fresh analysis finds it in the code and `get_config` returns it. With `fline.json` in the upload only the file's value counts, so a file saved before fline had this field has none, and fline checks `/`: add it. It starts with `/`, at most 200 characters, with no `?`, `#`, `..`, `\`, spaces or `://`. It never holds back a launch, a path that answers 404, 405 or 410 makes fline check `/` instead, and a change takes effect with the next version.
 - **Volumes.** `{"path": "/data", "reason": "uploaded photos"}`. The path is absolute. The app writes only there and in `/tmp`. Volumes survive restarts and updates, are removed with the project, and count toward its 8 GiB.
 - **Prebuilt images.** `image` from docker.io, ghcr.io or quay.io, with a version tag, never `latest`, at most five per build. Nothing is built. `run_command` replaces the image's CMD, never its ENTRYPOINT. Configure it through `env_names` entries with a literal `value`: `{"name": "KAFKA_ADVERTISED_LISTENERS", "value": "PLAINTEXT://kafka:9092"}`. A literal is never a credential. A password the image needs is an entry without a value, which the person fills on the private page.
 - **Public settings on built services.** Use `set_env {secret: false}`, not a literal in the file.

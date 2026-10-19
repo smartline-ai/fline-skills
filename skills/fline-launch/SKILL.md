@@ -23,6 +23,7 @@ Project never checked against fline? Use fline-prepare first. A failed build cos
 | State | Do |
 |---|---|
 | `analyzing`, `provisioning`, `rendering`, `building` | Wait. Nothing is asked of anyone. |
+| `rendering` again after `building` | The build failed with `build_command_failed`, `dockerfile_syntax`, `dependency_fetch_failed` or `image_too_large`, and fline is rewriting its build files with the error and building once more by itself. Wait; don't upload again. Tell the person: "The first build failed. fline is trying once more by itself." |
 | `awaiting_answers` | `answer_questions` from the sources. Ask the person only what only they know. |
 | `awaiting_secrets` | See Passwords and keys below. |
 | `locked` | `deploy {project_id}`. |
@@ -33,7 +34,7 @@ Project never checked against fline? Use fline-prepare first. A failed build cos
 | error `fline_full`, or a message or failure reason starting "fline is full right now", or failure `no_capacity` at stage `submit` | fline is full. Don't retry now. Tell the person fline's sentence and suggest writing via https://fline.sh/#contact. |
 | error `fline_not_taking_apps`, or a message or failure reason starting "fline can't take new apps" or "fline can't put new versions online", or failure `node_not_ready` at stage `submit` | fline is taking no new work. Don't retry now. Tell the person fline's sentence and suggest writing via https://fline.sh/#contact. |
 
-7. Fetch the url yourself (`curl -sS -o /dev/null -w '%{http_code}' <url>`) to see it answers. Then give it to the person; it's also on their fline dashboard.
+7. Fetch the url yourself (`curl -sS -o /dev/null -w '%{http_code}' <url>`) to see it answers. Then give it to the person; it's also on their fline dashboard. Tell them once: "fline checks your app while it's online. If your app stops answering, fline emails you once, and once more when it answers again."
 8. `get_config` and save the answer as `fline.json` at the top of the project folder, so later updates follow the same plan. See fline-build-plan.
 
 ## Passwords and keys

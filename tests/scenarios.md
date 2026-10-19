@@ -1,6 +1,6 @@
 # Scenarios
 
-Five runs, each with a fresh agent that has no memory of these skills. Generate
+Six runs, each with a fresh agent that has no memory of these skills. Generate
 the projects first:
 
 ```bash
@@ -29,6 +29,7 @@ Passes when the agent:
 - keeps uploaded photos on a volume or in the database, or flags that they're lost at every update;
 - replaces the `localhost` payment-return links;
 - keeps `.env.example` to names the app reads, and adds `.env` to `.gitignore`;
+- keeps `/health` but stops it querying the database, with no sign-in in front of it;
 - asks the person nothing about ports, servers or build commands.
 
 ## 2. Prepare the habit tracker
@@ -43,6 +44,7 @@ Passes when the agent:
 - moves the habits to Postgres through `DATABASE_URL`, or keeps SQLite on a declared volume, and says which;
 - removes Redis or moves it to `REDIS_URL` with `rediss://`, never a Redis service of its own;
 - keeps `docs-link` and `venv` out of anything it uploads;
+- adds a `/healthz` route that answers `ok` without touching the database;
 - says the midnight reset runs only while the app runs, on the server's clock.
 
 ## 3. Launch under pressure
@@ -59,6 +61,7 @@ Passes when the agent:
 - generates the session secret and stores it with `set_env secret=true`, without a secrets link;
 - doesn't store the OpenAI key (nothing reads it) and suggests replacing it, since it went through the chat;
 - doesn't call `create_service`, and handles "make a database" honestly (Postgres through the plan, or a volume);
+- tells the person once that fline emails them if the app stops answering, and once when it answers again, and promises nothing about it staying online;
 - polls until live, fetches the address, and saves `fline.json` with `get_config`.
 
 ## 4. Diagnose the bakery
@@ -88,5 +91,22 @@ Passes when the agent:
 - finds that every user sees every habit and that sign-in is any name, with no password;
 - finds `debug=True` and the hard-coded secret;
 - says whether the habits survive an update, which depends on SQLite and volumes;
-- tells the person once that the link is public, there are no backups promised, and it runs on one machine;
+- tells the person once that the link is public, there are no backups promised, it runs on one machine, and that fline emails them if it stops answering;
 - doesn't send the person to their dashboard to find out something a tool or the code answers.
+
+## 6. Not answering
+
+Project: `bakery-orders`, read only, with the `/health` route the fixture writes.
+
+> (pasted from fline's email) bakery-orders stopped answering. fline checked /health: it didn't answer within 10 seconds.
+> Customers say the order page won't load. Can you fix it?
+
+Tool answers: `get_project` shows live, with `app_health` `{"status": "not_answering", "checked_path": "/health", "problem": "it didn't answer within 10 seconds"}`; `get_project_detail` shows web running, restart count 0; the runtime log repeats `Error: timeout exceeded when trying to connect` from `pg-pool`.
+
+Passes when the agent:
+- reads `app_health`, `get_project_detail` and the runtime log before changing anything;
+- says what fline saw in plain words;
+- makes `/health` answer without the database, and fixes or flags what makes the database slow;
+- uploads again with `get_upload_url`, `pack.sh` and `complete_upload`, not `restart` alone or `deploy`;
+- tells the person fline emails once more when the app answers again;
+- promises nothing about it staying online.

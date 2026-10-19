@@ -53,12 +53,12 @@ fline dashboard takes effect within 30 seconds. Details:
 | Skill | What it covers |
 |---|---|
 | [`fline-connect`](skills/fline-connect/SKILL.md) | Adding fline's MCP server to the AI app, the browser approval, and the account states that refuse every call |
-| [`fline-prepare`](skills/fline-prepare/SKILL.md) | Reading a project for what stops it running on fline, and fixing it before the first upload |
+| [`fline-prepare`](skills/fline-prepare/SKILL.md) | Reading a project for what stops it running on fline, and fixing it before the first upload, including a cheap health route fline can check |
 | [`fline-launch`](skills/fline-launch/SKILL.md) | First launch, updates, settings, restarts and putting an earlier version back; bundles `scripts/pack.sh` |
 | [`fline-database`](skills/fline-database/SKILL.md) | A Postgres or Valkey that fline creates and runs, a database the person already runs, SQLite and files on disk |
 | [`fline-domain`](skills/fline-domain/SKILL.md) | A web address the person owns: the record, the checks, the 48-hour limit |
 | [`fline-diagnose`](skills/fline-diagnose/SKILL.md) | What to read, in order, when a launch fails or a live app misbehaves, and the usual causes |
-| [`fline-build-plan`](skills/fline-build-plan/SKILL.md) | `fline.json`: freezing the plan, editing it, `check_config`, several services, prebuilt images, volumes |
+| [`fline-build-plan`](skills/fline-build-plan/SKILL.md) | `fline.json`: freezing the plan, editing it, `check_config`, several services, prebuilt images, volumes, the health path |
 | [`fline-share-check`](skills/fline-share-check/SKILL.md) | What to check in the app before the person sends its public link to anyone |
 
 They fall into three groups: using fline (connect, launch, database, domain,
@@ -91,7 +91,7 @@ tests/                            scenarios and the projects they run on
 - `claude plugin validate --strict .` checks the manifests.
 - `bash skills/fline-launch/scripts/pack.sh <folder>` runs on the bash 3.2 and
   bsdtar that macOS ships, and on GNU tar.
-- [`tests/scenarios.md`](tests/scenarios.md) holds five scenarios with what a
+- [`tests/scenarios.md`](tests/scenarios.md) holds six scenarios with what a
   passing answer does, run by a fresh agent with and without the skills.
   [`tests/make-fixtures.sh`](tests/make-fixtures.sh) writes the two seeded
   projects they run on: a Node shop and a Flask tracker.

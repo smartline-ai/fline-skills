@@ -37,6 +37,7 @@
 | `run_command` | The container command as a list: `["node", "server.js"]`. No inline programs; `$PORT` expands only inside `["sh", "-c", "..."]`. On a prebuilt image it replaces CMD, never ENTRYPOINT. |
 | `public` | `true` to give it an address. |
 | `ingress_label` | `""` for the one public service that takes the plain address; a distinct short label for each further public service. |
+| `health_path` | Optional, on a public service: the path fline checks while the app is live, such as `/healthz`. Starts with `/`; at most 200 characters of printable ASCII; no `?`, `#`, `..`, `\`, spaces or `://`. Empty means fline checks `/`. |
 | `depends_on` | Names of services to start first. Doesn't wait for them to be ready. |
 | `env_names` | The variables it reads, below. |
 | `volumes` | `[{"path": "/data", "reason": "..."}]`: absolute paths kept across restarts and updates. |
@@ -125,6 +126,7 @@ fline's own website runs on fline with this file, apart from the project id. It 
 | `plan_image_and_build` | Both `image` and build fields | One or the other |
 | `plan_bad_service_name` | A service name with capitals, dots or other characters a built image can't take | Lowercase letters, digits, `-` and `_` |
 | `plan_bad_ingress_label`, `plan_duplicate_ingress_label` | Labels not distinct or not a short DNS label | One `""`, the rest distinct |
+| `plan_bad_health_path` | A `health_path` that isn't a plain path | `/healthz`: starts with `/`, no query, fragment, `..` or spaces |
 | `image_not_allowed`, `image_registry_not_allowed` | An image from another registry | docker.io, ghcr.io or quay.io |
 | `image_tag_latest` | No tag, or `latest` | Name a version |
 | `build_secret_unsupported` | Build arguments | Not supported; read the value at run time |

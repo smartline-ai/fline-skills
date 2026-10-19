@@ -23,7 +23,7 @@ Say these once, plainly, alongside the verdict:
 
 - Anyone with the link can open it.
 - fline doesn't promise backups yet: keep your own copy of anything you can't lose.
-- Your app runs on one machine with no spare, so it can be offline at times. fline doesn't email you if the app crashes; check it now and then.
+- Your app runs on one machine with no spare, so it can be offline at times. If your app stops answering, fline emails you once, and once more when it answers again. No email goes out while fline can't hear from that machine, or when many people's apps stop at the same time.
 - Each project gets 1 processor core and about 1 GB of memory. That suits a first group of users.
 
 ## Report

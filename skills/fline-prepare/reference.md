@@ -30,3 +30,25 @@ app.listen(process.env.PORT || 8080);
 ```
 
 Build command `npm run build`, start `node server.mjs`.
+
+## A health route by framework
+
+Once the app is live, fline sends a `GET` to the public service's health path, or to `/` when it has none, with `User-Agent: fline-app-check/1`, `X-Forwarded-Proto: https` and the app's own fline address as `Host`. 2xx, 3xx and 4xx other than 404, 405 or 410 count as answering. A 404, 405 or 410 makes fline check `/` instead. A 5xx, or no answer within 10 seconds, counts as not answering. Register it before any sign-in or rate-limit middleware.
+
+| Framework | Route | Path |
+|---|---|---|
+| Express | `app.get('/healthz', (req, res) => res.type('text').send('ok'))` | `/healthz` |
+| Fastify | `app.get('/healthz', async () => 'ok')` | `/healthz` |
+| Koa (`@koa/router`) | `router.get('/healthz', ctx => { ctx.body = 'ok' })` | `/healthz` |
+| Hono | `app.get('/healthz', c => c.text('ok'))` | `/healthz` |
+| Next.js app router | `app/healthz/route.ts` with `export const dynamic = 'force-dynamic'` (needed on 14 or earlier) and `export function GET() { return new Response('ok') }` | `/healthz` |
+| Next.js pages router | `pages/api/health.ts` | `/api/health` |
+| SvelteKit | `src/routes/healthz/+server.ts` with `export const GET = () => new Response('ok')` | `/healthz` |
+| Flask | `@app.get('/healthz')` returning `'ok'` | `/healthz` |
+| FastAPI | the same, with `PlainTextResponse('ok')` | `/healthz` |
+| Django | `path('healthz', lambda request: HttpResponse('ok'))` in `urls.py`; `ALLOWED_HOSTS` as in the table above | `/healthz` |
+| Rails 7.1+ | the generated `get "up" => "rails/health#show"`; keep it | `/up` |
+| Laravel 11 | `health: '/up'` in `bootstrap/app.php`; keep it | `/up` |
+| Spring Boot | the actuator's `/actuator/health` also checks the database by default, so set `management.endpoint.health.probes.enabled=true` and `"health_path": "/actuator/health/liveness"` in fline.json | `/actuator/health/liveness` |
+| ASP.NET | `builder.Services.AddHealthChecks();` and `app.MapHealthChecks("/healthz");` with no checks added | `/healthz` |
+| Go `net/http` | `mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("ok")) })` | `/healthz` |

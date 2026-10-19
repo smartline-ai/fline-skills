@@ -5,7 +5,8 @@
 #
 # DIR/bakery-orders: Node, Express, Postgres through DB_* variables, a .env
 #   committed to git, an OpenAI key in browser code, uploads on disk, Gmail
-#   SMTP, node-cron, nodemon as the start, localhost links, no lockfile.
+#   SMTP, node-cron, nodemon as the start, localhost links, no lockfile, and a
+#   /health route that queries the database.
 # DIR/habit-tracker: Flask on app.run(debug=True), SQLite in the folder, Redis
 #   by host and port, a compose Redis service, APScheduler, a hard-coded
 #   session secret, every user's rows shown to everyone, a venv, and a symlink
@@ -99,6 +100,11 @@ const mailer = nodemailer.createTransport({
 cron.schedule('0 7 * * *', async () => {
   const { rows } = await pool.query("SELECT * FROM orders WHERE created_at > now() - interval '1 day'");
   await mailer.sendMail({ to: 'owner@example.com', subject: 'Daily orders', text: JSON.stringify(rows, null, 2) });
+});
+
+app.get('/health', async (req, res) => {
+  await pool.query('SELECT 1');
+  res.json({ ok: true, db: 'up' });
 });
 
 app.listen(3000, 'localhost', () => console.log('Bakery running on http://localhost:3000'));
